@@ -37,26 +37,56 @@ class MyApp extends StatelessWidget {
       home: _HomeScreen()
     );
   }
+}class _HomeScreen extends  StatefulWidget {
+
+
+
+
+  @override
+  State<_HomeScreen> createState() => _HomeScreenState();
 }
-class _HomeScreen extends  StatelessWidget {
 
+class _HomeScreenState extends State<_HomeScreen> {
 
+  var showAllContacts = false; // if false only show favorites
+
+  void _toggleMode() => setState(() => showAllContacts = !showAllContacts);
+  @override
+  @override
   Widget build(BuildContext context) {
-    final contactRows =
-    defaultContacts.map((contact) => ContactRow(contact: contact)).toList();
+    final displayedContacts = [
+      for (final contact in defaultContacts)
+        if (showAllContacts || contact.isFavorite) contact
+    ];
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Contact list"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            icon: Icon(showAllContacts ? Icons.star_border : Icons.star),
+            onPressed: _toggleMode,
+          ),
+        ],
       ),
-      body: ListView(children: contactRows),
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: SizedBox(
+            width: 512.0,
+            child: ListView.builder(
+              itemCount: displayedContacts.length,
+              itemBuilder: (context, index) =>
+                  ContactRow(contact: displayedContacts[index]),
+            ),
+          ),
+        ),
+      ),
     );
   }
-
-
-
 }
+
 
 
 /* class MyHomePage extends StatefulWidget {
