@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'contact.dart';
 import 'contact_row.dart';
+import 'home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,12 +34,32 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: _HomeScreen()
     );
   }
 }
+class _HomeScreen extends  StatelessWidget {
 
-class MyHomePage extends StatefulWidget {
+
+  Widget build(BuildContext context) {
+    final contactRows =
+    defaultContacts.map((contact) => ContactRow(contact: contact)).toList();
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text("Contact list"),
+      ),
+      body: ListView(children: contactRows),
+    );
+  }
+
+
+
+}
+
+
+/* class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -117,6 +138,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
-  }
+  } */
 
-}
+
